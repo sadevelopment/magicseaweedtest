@@ -61,9 +61,15 @@ Usage is displayed based on the search engine selected. For gpnp, this is:
 ```
 
 Usage:
-        <radius>|<lat,lng>|<search term>|<type>
+        <lat,lng>|<radius>|<search term>|<type>
     Or
-        <radius>|<place name>|<search term>|<type>
+        <place name>|<radius>|<search term>|<type>
+
+Required:
+
+<lat,lng> or <place name> - one of these are required.
+
+Optional Params:
 
 <radius> - if radius is not a numeric will use the default in config.json for this engine
 <search term> - if not provided will use the default in config.json for this engine
@@ -71,3 +77,14 @@ Usage:
 
 ```
 
+(Type usage at any point to redisplay the current search engine's usage message.)
+
+
+
+## Testing
+
+Please install all dependencies using composer. Once this has been done then the tests can be run using the following from the root of the git checkout:
+
+```
+./vendor/bin/phpunit tests
+```

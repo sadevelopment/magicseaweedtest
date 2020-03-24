@@ -1,0 +1,14 @@
+1. a. How long did you spend on it? 
+        About a full working day.
+   b. How would you change the solution?
+        I would add more search engines and allow the user to switch between them without having to restart, addtionally I would make it 
+        more interactive by allowing the user to maybe see more details from the results. I would definately comment the code more ...
+
+        I would also def redo this solution and target iOS or Android.
+
+2. For PHP I would say the creating classes based on Strings is quite handy, for instance how the handler, display_class and argument_rewriters are
+   specified in the config.json.
+
+3. I would use performance monitoring tools to try to track down bottlenecks, additionally peer reviews often help to spot mistakes or badly written code.
+
+   

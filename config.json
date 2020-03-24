@@ -1,0 +1,24 @@
+{
+    "version": "1.0",
+    "default_search_engine":"gpnb",
+    "param_delim": "|",
+    "search_engines": [
+        {
+            "name":"gpnb",
+            "description": "Google Places Nearby Search",
+            "api_key": "AIzaSyCJ0RX-3gbqFcUgVdGz_1lwFdGJ8SI_5ZU",
+            "handler": "App\\RequestHandler\\GooglePlacesNearByHandler",
+            "display_class": "App\\Lists\\GPNearByMe",
+            "argument_rewriter": "App\\Helper\\GPArgumentRewriter",
+            "defaults": {
+                "search_term": "surf",
+                "radius": 1000,
+                "type":"lodging"
+            }
+        }
+    ],
+    "logging": {
+        "active":true
+    },
+    "error_email_address":[]
+}

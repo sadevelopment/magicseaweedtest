@@ -1,0 +1,91 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . '/settings.php';
+
+use App\Helper\LatLngHelper;
+use Clue\React\Stdio\Stdio;
+use React\Socket\Connector;
+use React\EventLoop\Factory;
+use React\Socket\ConnectionInterface;
+use App\RequestHandler\RequestHandlerFactory;
+use App\Exceptions\NoHandlerAvailableException;
+use App\Logging\Logger;
+
+$loop = Factory::create();
+
+$stdio = new Stdio($loop);
+$stdio->setPrompt('> ');
+
+RequestHandlerFactory::configureFactory($config, $stdio);
+
+if(sizeof($argv)==2) {
+    $searchType = $argv[1];
+} else {
+    $searchType = $config->default_search_engine;
+}
+
+try {
+    $handler = RequestHandlerFactory::getRequestHandler($searchType);
+}catch(NoHandlerAvailableException $e) {
+    echo "\e[1;37;41m{$e->getMessage()}\e[0m\nSwitching to default: \e[1;37;41m{$config->default_search_engine}\e[0m\n";
+    $handler = RequestHandlerFactory::getRequestHandler($config->default_search_engine);
+}
+
+function showUsage($handler) {
+    echo "\nSearch Engine: {$handler->getName()} - {$handler->getDescription()}\n";
+    echo $handler->getUsage();
+    echo "\nType usage to usage message";
+    echo "\nType quit to exit\n\n";
+}
+
+showUsage($handler);
+
+if($handler!=null) {
+    $handler->on('result', function($results) use($stdio, $handler){
+        if(sizeof($results)==0) {
+            $stdio->write("No results found!\n\n");
+            return;
+        }
+        $num = sizeof($results);
+        $stdio->write("\n{$num} Result(s) from your query:\n\n");
+        $handler->getDisplayClass()->displayResults($results);
+        $stdio->write("\n{$num} Result(s) from your query:\n\n");
+    });
+
+    $handler->on('error', function($exception) use($stdio) {
+        $stdio->write("Sorry we didn't recognise that request\n");
+    });
+}
+
+
+
+$stdio->on('data', function ($line) use ($loop, $config, $stdio, $handler) {
+    $line = rtrim($line, "\r\n");
+    
+    if($line == "") return;
+
+    if($line=="quit") {
+        echo "\n\nBye bye!\n\n";
+        $loop->stop();
+        echo "\n";
+        return;
+    }
+
+    if($line=="usage") {
+        showUsage($handler);
+        return;
+    }
+
+    try {
+        $params = $handler->getArgumentRewriter()->rewrite($handler->getApiKey(), $config->param_delim, $handler->getDefaults(), $line);
+        $handler->makeRequest($params);
+    }catch(Exception $e) {
+        $stdio->write($e->getMessage());
+    }
+});
+
+$loop->run();
+
+?>
