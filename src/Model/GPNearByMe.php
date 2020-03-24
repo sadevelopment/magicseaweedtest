@@ -1,6 +1,9 @@
 <?php
 namespace App\Model;
 
+/**
+ * Basic immutable bean to capture the results details we are interested in.
+ */
 class GPNearByMe {
 
     private 

@@ -2,6 +2,15 @@
 namespace App\RequestHandler;
 use Evenement\EventEmitter;
 
+/**
+ * Immutable abstract to capture the details of the search engine. This abstract
+ * is a subclass of EventEmitter so we can fire off events as we need.<p>
+ * 
+ * Two events are provided and should be used<br>
+ * 
+ * result - indictates that the query was a success and results (array) are available
+ * error - indicates that the query failed (exception)
+ */
 abstract class BaseRequestHandler extends EventEmitter {
 
     protected
@@ -27,6 +36,14 @@ abstract class BaseRequestHandler extends EventEmitter {
     public function getDisplayClass() { return $this->display_class; }
     public function getDefaults() { return $this->defaults; }
     public function getArgumentRewriter() { return $this->argument_rewriter; }
+
+    protected function emitSuccess($results) {
+        $this->emit("result", [$results]);
+    }
+
+    protected function emitFailure($exception) {
+        $this->emit("error", [$exception]);
+    }
 
     public abstract function getUsage();
     public abstract function makeRequest($requestParams);

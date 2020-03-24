@@ -23,7 +23,7 @@ class TestRequestHandlers extends MSWTestCase {
         );
     }
 
-    public function testArgumentRewriter() {
+    public function testArgumentRewriterAndDefaults() {
         $this->assertInstanceOf(
             GPArgumentRewriter::class,
             RequestHandlerFactory::getRequestHandler("gpnb")->getArgumentRewriter()

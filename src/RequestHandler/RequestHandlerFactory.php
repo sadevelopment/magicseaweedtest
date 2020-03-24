@@ -5,6 +5,9 @@ use Ds\Map;
 use App\Logging\Logger;
 use App\Exceptions\NoHandlerAvailableException;
 
+/**
+ * 
+ */
 class RequestHandlerFactory {
     static $HANDLER_MAP;
 
@@ -12,6 +15,9 @@ class RequestHandlerFactory {
         RequestHandlerFactory::setupHandlers($config, $stdio);
     }
 
+    /**
+     * Set up all the configured search engine
+     */
     private static function setupHandlers($config, $stdio=NULL) {
         if(RequestHandlerFactory::$HANDLER_MAP==NULL) {
             RequestHandlerFactory::$HANDLER_MAP = new Map();
@@ -30,6 +36,8 @@ class RequestHandlerFactory {
     }
 
     public static function getRequestHandler($name) {
+        // TODO: Need to throw an error here if the HANDLER_MAP has not been configured
+        // TODO : calling this direct without configuring may throw and error - TestCase for this
         $handler = RequestHandlerFactory::$HANDLER_MAP->get($name, null);
         if($handler == null) {
             throw new NoHandlerAvailableException("The handler for {$name} does not exist!");

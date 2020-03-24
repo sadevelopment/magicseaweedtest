@@ -1,8 +1,12 @@
 1. a. How long did you spend on it? 
         About a full working day.
    b. How would you change the solution?
-        I would add more search engines and allow the user to switch between them without having to restart, addtionally I would make it 
-        more interactive by allowing the user to maybe see more details from the results. I would definately comment the code more ...
+        I would add more search engines and allow the user to switch between them without having to restart 
+        I would make it more interactive by allowing the user to maybe see more details from the results
+        Add caching for repeat queries
+        Make it more strongly typed
+        
+        I would definately comment the code more ...
 
         I would also def redo this solution and target iOS or Android.
 

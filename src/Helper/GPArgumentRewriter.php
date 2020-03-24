@@ -17,15 +17,17 @@ class GPArgumentRewriter extends Rewriter {
         $newArguments = array();
         $parts = explode($args[1], $args[3]);
 
+        // Need at least the lat/lng or place name
         if(!$this->checkMinimumParameterSet($parts) || $parts[1]==="") {
             throw new InvalidArgumentException("Please check that you include at least lat/lng or place name in your query");
         }
 
-
+        // add in if lat,lng pair
         if(preg_match('/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?);[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/', $parts[2])==1) {
             $latlng= explode(",", $parts[0]);
             array_push($newArguments, $latlng[0] . " " . $latlng[1]);
         } else {
+           // Lookup the place name to get the lat,lng pair
            $lookup = new LatLngLookup($args[0]);
            $result = $lookup->lookupByName($parts[0], ",");
            if($result==FALSE) {

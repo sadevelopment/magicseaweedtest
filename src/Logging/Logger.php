@@ -4,6 +4,9 @@ namespace App\Logging;
 use \DateTime;
 use \DateTimeZone;
 
+/**
+ * Convenience loggerqui
+ */
 class Logger {
 
 	static $config;
