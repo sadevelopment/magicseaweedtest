@@ -6,7 +6,7 @@
         {
             "name":"gpnb",
             "description": "Google Places Nearby Search",
-            "api_key": "AIzaSyCJ0RX-3gbqFcUgVdGz_1lwFdGJ8SI_5ZU",
+            "api_key": "",
             "handler": "App\\RequestHandler\\GooglePlacesNearByHandler",
             "display_class": "App\\Lists\\GPNearByMe",
             "argument_rewriter": "App\\Helper\\GPArgumentRewriter",
